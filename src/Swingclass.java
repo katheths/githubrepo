@@ -4,6 +4,7 @@ import java.awt.Cursor;
 import java.awt.Frame;
 import java.awt.Image;
 import java.awt.Label;
+import java.awt.Point;
 import java.awt.TextArea;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -26,12 +27,14 @@ import java.awt.Font;
 import java.awt.GridLayout;
 
 import javax.imageio.ImageIO;
+import javax.management.Notification;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextArea;
@@ -74,7 +77,7 @@ public class Swingclass extends JFrame implements ActionListener{
          this.namelable();
          this.textfield();
          this.imagelabel();
- 	    this.addtextfield1();
+ 	     this.addtextfield1();
  		 this.setbutton();
  		 super.setVisible(true);
  		
@@ -119,7 +122,7 @@ public class Swingclass extends JFrame implements ActionListener{
 	{
 		
 		textfield1.setFont(new Font("Verdana", Font.ITALIC, 20));
-		textfield1.setBounds(250,250,200,80);
+		textfield1.setBounds(250,250,300,200);
 		
 	   	mainpanel.add(textfield1);
 		textfield1.addActionListener(this);
@@ -133,31 +136,28 @@ public class Swingclass extends JFrame implements ActionListener{
 	
 	public void actionPerformed(ActionEvent e) 
 	{
-		// TODO Auto-generated method stub
+	
+		//apigetting(textfield.getText().toString());
+		//s = e.getActionCommand();
+				//String str=textfield.getText().toString();
+	               // textfield1.setText(str);
+	    
+	if(!textfield.getText().equals(""))
+	{
 		
-		apigetting(textfield.getText().toString());
-		String s,s1;
-		s = e.getActionCommand();
-		if (s.equals("search"))
-		{
-			String str=textfield.getText().toString();
-            // set the text of the label to the text of the field
-		    textfield1.setText(str);
-  
-            // set the text of field to blank
-            textfield.setText("  ");
-        }
-		
-	    System.out.print(textfield1.getText().toString());
-        
+	}
+	else
+	{
+	JOptionPane.showMessageDialog(mainpanel, "enter the city name");		
+	}
 	}
 		private void imagelabel()
-{
+    {
 	// TODO Auto-generated method stub
 	imagelabel.setBounds(50,200,150,150);
  
 	 mainpanel.add(imagelabel);
-}
+  }
 
 
 public String apigetting(String name)
@@ -165,15 +165,18 @@ public String apigetting(String name)
 		try 
 	{
 	 var url ="http://api.weatherapi.com/v1/current.json?key=e3ac81bc8fd84b7cb4461201210308&q="+name+"&aqi=no";
-     var request=HttpRequest.newBuilder().GET().uri(URI.create(url)).build();
+    var request=HttpRequest.newBuilder().GET().uri(URI.create(url)).build();
      var client = HttpClient.newBuilder().build();
      var response=client.send(request, HttpResponse.BodyHandlers.ofString());
      var store=response.body();
   //    System.out.println(" Information regarding your request is----");
       JSONObject jsnobj=new JSONObject(store).getJSONObject("location");
       String s1=jsnobj.getString("name");
-     
-      //System.out.println("name  :  "+ s1);
+      String s2=jsnobj.getString("region");
+      
+     // System.out.println("name  :  "+ s1);
+      //System.out.println("region  :  "+ s2);
+      
      
      }
 		
@@ -182,6 +185,7 @@ public String apigetting(String name)
 		e.printStackTrace();
 	}
 		return name;
+		
    }
 		
 	}
